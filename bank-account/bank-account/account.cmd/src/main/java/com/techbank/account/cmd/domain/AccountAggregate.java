@@ -6,12 +6,17 @@ import events.AccountClosedEvent;
 import events.AccountOpenedEvent;
 import events.FundsDepositedEvent;
 import events.FundsWithdrawnEvent;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
-
+@NoArgsConstructor
 public class AccountAggregate extends AggregateRoot {
     private Boolean active;
     private double balance;
+
+    public double getBalance(){
+        return this.balance;
+    }
 
     public AccountAggregate(OpenAccountCommand command){
         raiseEvent(AccountOpenedEvent.builder()
@@ -22,6 +27,7 @@ public class AccountAggregate extends AggregateRoot {
                 .openingBalance(command.getOpeningBalance())
                 .build());
     }
+
 
     public void apply(AccountOpenedEvent event){
         this.id = event.getId();
